@@ -1,0 +1,134 @@
+@prefix vw: <https://example.org/vehicle-warning/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# =========================
+# Semantic data model
+# =========================
+
+vw:VehicleWarningOntology a owl:Ontology ;
+    rdfs:label "Vehicle Warning Ontology"@en ;
+    rdfs:comment "A semantic model for grounding explanations of vehicle dashboard warnings."@en .
+
+vw:WarningSymbol a owl:Class ;
+    rdfs:label "Warning symbol"@en .
+
+vw:VehicleComponent a owl:Class ;
+    rdfs:label "Vehicle component"@en .
+
+vw:RecommendedAction a owl:Class ;
+    rdfs:label "Recommended action"@en .
+
+vw:hasSeverity a owl:ObjectProperty ;
+    rdfs:domain vw:WarningSymbol ;
+    rdfs:range skos:Concept .
+
+vw:affectsComponent a owl:ObjectProperty ;
+    rdfs:domain vw:WarningSymbol ;
+    rdfs:range vw:VehicleComponent .
+
+vw:requiresAction a owl:ObjectProperty ;
+    rdfs:domain vw:WarningSymbol ;
+    rdfs:range vw:RecommendedAction .
+
+vw:hasDescription a owl:DatatypeProperty ;
+    rdfs:domain vw:WarningSymbol ;
+    rdfs:range rdfs:Literal .
+
+# =========================
+# Controlled vocabulary
+# =========================
+
+vw:SeverityScheme a skos:ConceptScheme ;
+    skos:prefLabel "Vehicle warning severity levels"@en .
+
+vw:Critical a skos:Concept ;
+    skos:inScheme vw:SeverityScheme ;
+    skos:prefLabel "Critical"@en ;
+    skos:definition "Immediate action is required to prevent danger or serious damage."@en .
+
+vw:Warning a skos:Concept ;
+    skos:inScheme vw:SeverityScheme ;
+    skos:prefLabel "Warning"@en ;
+    skos:definition "The vehicle should be inspected as soon as possible."@en .
+
+vw:Informational a skos:Concept ;
+    skos:inScheme vw:SeverityScheme ;
+    skos:prefLabel "Informational"@en ;
+    skos:definition "The driver should be informed, but immediate danger is unlikely."@en .
+
+# =========================
+# Vehicle components
+# =========================
+
+vw:EngineLubricationSystem a vw:VehicleComponent ;
+    rdfs:label "Engine lubrication system"@en .
+
+vw:CoolingSystem a vw:VehicleComponent ;
+    rdfs:label "Engine cooling system"@en .
+
+vw:ChargingSystem a vw:VehicleComponent ;
+    rdfs:label "Battery and charging system"@en .
+
+vw:BrakeSystem a vw:VehicleComponent ;
+    rdfs:label "Brake system"@en .
+
+vw:TireSystem a vw:VehicleComponent ;
+    rdfs:label "Tire pressure system"@en .
+
+# =========================
+# Recommended actions
+# =========================
+
+vw:StopVehicleSafely a vw:RecommendedAction ;
+    rdfs:label "Stop the vehicle safely and switch off the engine."@en .
+
+vw:AllowEngineToCool a vw:RecommendedAction ;
+    rdfs:label "Stop safely and allow the engine to cool."@en .
+
+vw:VisitServiceCenter a vw:RecommendedAction ;
+    rdfs:label "Arrange an inspection at a qualified service center."@en .
+
+vw:CheckTirePressure a vw:RecommendedAction ;
+    rdfs:label "Check and correct the tire pressure."@en .
+
+# =========================
+# Warning-symbol instances
+# =========================
+
+vw:OilPressureWarning a vw:WarningSymbol ;
+    rdfs:label "Oil pressure warning"@en ;
+    vw:hasDescription "The engine may not be receiving sufficient oil pressure."@en ;
+    vw:hasSeverity vw:Critical ;
+    vw:affectsComponent vw:EngineLubricationSystem ;
+    vw:requiresAction vw:StopVehicleSafely .
+
+vw:EngineTemperatureWarning a vw:WarningSymbol ;
+    rdfs:label "Engine temperature warning"@en ;
+    vw:hasDescription "The engine temperature is above its safe operating range."@en ;
+    vw:hasSeverity vw:Critical ;
+    vw:affectsComponent vw:CoolingSystem ;
+    vw:requiresAction vw:AllowEngineToCool .
+
+vw:BatteryWarning a vw:WarningSymbol ;
+    rdfs:label "Battery or charging-system warning"@en ;
+    vw:hasDescription "The vehicle charging system may not be operating correctly."@en ;
+    vw:hasSeverity vw:Warning ;
+    vw:affectsComponent vw:ChargingSystem ;
+    vw:requiresAction vw:VisitServiceCenter .
+
+vw:BrakeSystemWarning a vw:WarningSymbol ;
+    rdfs:label "Brake system warning"@en ;
+    vw:hasDescription "A problem may exist in the braking system."@en ;
+    vw:hasSeverity vw:Critical ;
+    vw:affectsComponent vw:BrakeSystem ;
+    vw:requiresAction vw:StopVehicleSafely .
+
+vw:TirePressureWarning a vw:WarningSymbol ;
+    rdfs:label "Tire pressure warning"@en ;
+    vw:hasDescription "One or more tires may have insufficient air pressure."@en ;
+    vw:hasSeverity vw:Warning ;
+    vw:affectsComponent vw:TireSystem ;
+    vw:requiresAction vw:CheckTirePressure .

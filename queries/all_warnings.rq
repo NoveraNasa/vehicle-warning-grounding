@@ -1,0 +1,20 @@
+PREFIX vw: <https://example.org/vehicle-warning/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?warningLabel ?description ?severityLabel ?componentLabel ?actionLabel
+WHERE {
+    ?warning a vw:WarningSymbol ;
+             rdfs:label ?warningLabel ;
+             vw:hasDescription ?description ;
+             vw:hasSeverity ?severity ;
+             vw:affectsComponent ?component ;
+             vw:requiresAction ?action .
+
+    ?severity skos:prefLabel ?severityLabel .
+    ?component rdfs:label ?componentLabel .
+    ?action rdfs:label ?actionLabel .
+
+    FILTER(LANG(?warningLabel) = "en")
+}
+ORDER BY ?warningLabel
