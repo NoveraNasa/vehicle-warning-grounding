@@ -1,0 +1,7 @@
+filename,expected_id,predicted_id,confidence,correct
+oil_pressure.jpg,oil_pressure,oil_pressure,high,True
+engine_temperature.jpg,engine_temperature,engine_temperature,high,True
+battery.jpg,battery,battery,high,True
+brake_system.jpg,brake_system,brake_system,high,True
+tire_pressure.jpg,tire_pressure,tire_pressure,high,True
+unknown.jpg,unknown,unknown,high,True
