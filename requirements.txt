@@ -1,1 +1,6 @@
+
 rdflib==7.6.0
+pyparsing==3.3.2
+openai==2.52.1
+python-dotenv==1.2.2
+pydantic==2.13.4
